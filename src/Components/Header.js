@@ -39,10 +39,10 @@ const Header = () => {
   };
 
   return (
-    <div className="bg-gradient-to-b from-black">
+    <div className="">
       {/* we have two headers , one is when user is signesd in and other if it is not */}
       {user ? (
-        <div className="flex justify-between ">
+        <div className="flex justify-between absolute top-0 left-0 right-0 z-10 ">
           <div className="py-4 pl-4 z-10 ">
             <img
               className="cursor-pointer drop-shadow-lg"
