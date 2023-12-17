@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import Header from "./Header";
 import { ValidateData } from "../utils/Validate";
 import { createUserWithEmailAndPassword,onAuthStateChanged,signInWithEmailAndPassword, updateProfile} from "firebase/auth";
@@ -100,7 +100,7 @@ const Login = () => {
       </div>
       <form
         onSubmit={(e) => e.preventDefault}
-        className="absolute w-3/12 bg-black my-44 mx-auto right-0 left-0 p-4"
+        className="absolute w-3/12 bg-black my-44 mx-auto right-0 left-0 p-4 bg-opacity-80"
       >
         <h1 className="text-white text-3xl font-serif p-2 ">
           {isSignInForm ? "Sign In" : "Sign Up"}
@@ -131,7 +131,6 @@ const Login = () => {
           type="button"
           className="text-white bg-red-600 m-2 p-2 ml-4 w-80 rounded-sm text-sm "
         >
-          {" "}
           {isSignInForm ? "Sign In" : "Sign Up"}
         </button>
         <p

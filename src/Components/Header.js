@@ -1,14 +1,33 @@
-import { signOut } from "firebase/auth";
-import React from "react";
-import { useSelector } from "react-redux";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import appStore from "../utils/appStore";
 import { logo } from "../utils/constants";
 import { auth } from "../utils/firebase";
+import { addUser, removeUser } from "../utils/userSlice";
 
 const Header = () => {
   const user = useSelector((store) => store.user);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (appStore) {
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          const { uid, email, displayName, photoURL } = user;
+          dispatch(addUser({ uid, email, displayName, photoURL }));
+          navigate("/browse");
+        } else {
+          dispatch(removeUser());
+          navigate("/");
+        }
+      });
+    }
+  }, []);
+
   const handleSignout = () => {
     signOut(auth)
       .then(() => {
@@ -20,9 +39,7 @@ const Header = () => {
   };
 
   return (
-    <div className= "bg-gradient-to-b from-black">
-     
-
+    <div className="bg-gradient-to-b from-black">
       {/* we have two headers , one is when user is signesd in and other if it is not */}
       {user ? (
         <div className="flex justify-between ">
@@ -35,7 +52,9 @@ const Header = () => {
             />
           </div>
           <div className="flex m-6 space-x-6 pr-6 pt-2">
-             <h3 className=" font-semibold font-serif text-lg py-2 ">Hii..{user.displayName} </h3>
+            <h3 className=" font-semibold font-serif text-lg py-2 ">
+              Hii..{user.displayName}{" "}
+            </h3>
             <img
               src={logo}
               alt="logo"
@@ -49,15 +68,16 @@ const Header = () => {
             </button>
           </div>
         </div>
-      ) : (  
+      ) : (
         <div className="py-4 pl-4 z-10 absolute">
-        <img
-          className="cursor-pointer drop-shadow-lg"
-          src="https://cdn.cookielaw.org/logos/dd6b162f-1a32-456a-9cfe-897231c7763c/4345ea78-053c-46d2-b11e-09adaef973dc/Netflix_Logo_PMS.png"
-          alt="netflix logo"
-          width={200}
-        />
-      </div> )}
+          <img
+            className="cursor-pointer drop-shadow-lg"
+            src="https://cdn.cookielaw.org/logos/dd6b162f-1a32-456a-9cfe-897231c7763c/4345ea78-053c-46d2-b11e-09adaef973dc/Netflix_Logo_PMS.png"
+            alt="netflix logo"
+            width={200}
+          />
+        </div>
+      )}
     </div>
   );
 };
