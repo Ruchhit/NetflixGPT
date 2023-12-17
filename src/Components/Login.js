@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import Header from "./Header";
 import { ValidateData } from "../utils/Validate";
-import { createUserWithEmailAndPassword,signInWithEmailAndPassword} from "firebase/auth";
+import { createUserWithEmailAndPassword,signInWithEmailAndPassword, updateProfile} from "firebase/auth";
 import {auth} from "../utils/firebase"
 import { useNavigate } from "react-router-dom";
  
@@ -30,8 +30,15 @@ const Login = () => {
         // we need signup new user logic
           createUserWithEmailAndPassword(auth,email.current.value,password.current.value)
           .then((userCredential) => {
-            // Signed up
+            // user Signed up , so now also here we are extracting its name ( using updateProfile API )
             const user = userCredential.user;
+            updateProfile(auth.currentUser, {
+              displayName: user.current.value, photoURL: "https://example.com/jane-q-user/profile.jpg"
+            }).then(() => {
+              navigate("/browse");
+            }).catch((error) => {
+              setErrorMsg(error.message)
+            });
             console.log(user);
           })
           .catch((error) => {
@@ -39,7 +46,7 @@ const Login = () => {
             const errorMessage = error.message;
             setErrorMsg(errorCode + "-" + errorMessage);
           });
-          navigate("/browse");
+           
       }
       else {
        
