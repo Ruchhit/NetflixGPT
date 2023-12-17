@@ -1,22 +1,28 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Header from "./Header";
 import { ValidateData } from "../utils/Validate";
-import { createUserWithEmailAndPassword,signInWithEmailAndPassword, updateProfile} from "firebase/auth";
+import { createUserWithEmailAndPassword,onAuthStateChanged,signInWithEmailAndPassword, updateProfile} from "firebase/auth";
 import {auth} from "../utils/firebase"
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import appStore from "../utils/appStore";
+import { addUser, removeUser } from "../utils/userSlice";
  
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMsg, setErrorMsg] = useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const email = useRef(null);
   const password = useRef(null);
+  const name = useRef(null);
 
   const handleButtonClick = () => {
     console.log(email.current.value);
     console.log(password.current.value);
+    console.log(name.current.value)
 
     const msg = ValidateData(email.current.value, password.current.value);
     console.log(msg);
@@ -32,19 +38,33 @@ const Login = () => {
           .then((userCredential) => {
             // user Signed up , so now also here we are extracting its name ( using updateProfile API )
             const user = userCredential.user;
-            updateProfile(auth.currentUser, {
-              displayName: user.current.value, photoURL: "https://example.com/jane-q-user/profile.jpg"
+            console.log(user)
+            updateProfile(user, {
+              displayName: name.current.value, photoURL: "https://example.com/jane-q-user/profile.jpg"
             }).then(() => {
+                if (appStore) {
+                   
+                  onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                      const { uid, email, displayName, photoURL } = auth.currentUser;
+                      dispatch(addUser({ uid, email, displayName, photoURL }));
+                    } else {
+                      dispatch(removeUser());
+                    }
+                  });
+                }
+            
               navigate("/browse");
             }).catch((error) => {
               setErrorMsg(error.message)
+              console.log(error.message)
             });
             console.log(user);
           })
           .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
-            setErrorMsg(errorCode + "-" + errorMessage);
+            setErrorMsg(errorCode + "&&" + errorMessage);
           });
            
       }
@@ -87,6 +107,7 @@ const Login = () => {
         </h1>
         {!isSignInForm && (
           <input
+           ref={name}
             type="text"
             placeholder="enter your full name"
             className=" m-4 p-2 bg-slate-700 rounded-sm text-white w-80"

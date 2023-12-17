@@ -9,21 +9,21 @@ import { addUser, removeUser } from "../utils/userSlice";
 import appStore from "../utils/appStore";
 import { auth } from "../utils/firebase";
 const Body = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (appStore) {
+  // useEffect(() => {
+  //   if (appStore) {
        
-      onAuthStateChanged(auth, (user) => {
-        if (user) {
-          const { uid, email, displayName, photoURL } = user;
-          dispatch(addUser({ uid, email, displayName, photoURL }));
-        } else {
-          dispatch(removeUser());
-        }
-      });
-    }
-  }, []);
+  //     onAuthStateChanged(auth, (user) => {
+  //       if (user) {
+  //         const { uid, email, displayName, photoURL } = user;
+  //         dispatch(addUser({ uid, email, displayName, photoURL }));
+  //       } else {
+  //         dispatch(removeUser());
+  //       }
+  //     });
+  //   }
+  // }, []);
   const appRouter = createBrowserRouter([
     {
       path: "/",

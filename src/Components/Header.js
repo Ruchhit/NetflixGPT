@@ -23,7 +23,7 @@ const Header = () => {
     <div className= "bg-gradient-to-b from-black">
      
 
-      {/* if user is signed in then only show this two buttons */}
+      {/* we have two headers , one is when user is signesd in and other if it is not */}
       {user ? (
         <div className="flex justify-between ">
           <div className="py-4 pl-4 z-10 ">
@@ -35,6 +35,7 @@ const Header = () => {
             />
           </div>
           <div className="flex m-6 space-x-6 pr-6 pt-2">
+             <h3 className=" font-semibold font-serif text-lg py-2 ">Hii..{user.displayName} </h3>
             <img
               src={logo}
               alt="logo"
