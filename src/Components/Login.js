@@ -3,11 +3,13 @@ import Header from "./Header";
 import { ValidateData } from "../utils/Validate";
 import { createUserWithEmailAndPassword,signInWithEmailAndPassword} from "firebase/auth";
 import {auth} from "../utils/firebase"
+import { useNavigate } from "react-router-dom";
  
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMsg, setErrorMsg] = useState(null);
+  const navigate = useNavigate();
 
   const email = useRef(null);
   const password = useRef(null);
@@ -26,12 +28,7 @@ const Login = () => {
       // that means we need to create new user
       if (!isSignInForm) {
         // we need signup new user logic
-         
-        createUserWithEmailAndPassword(
-          auth,
-          email.current.value,
-          password.current.value
-        )
+          createUserWithEmailAndPassword(auth,email.current.value,password.current.value)
           .then((userCredential) => {
             // Signed up
             const user = userCredential.user;
@@ -42,6 +39,7 @@ const Login = () => {
             const errorMessage = error.message;
             setErrorMsg(errorCode + "-" + errorMessage);
           });
+          navigate("/browse");
       }
       else {
        
@@ -56,6 +54,7 @@ const Login = () => {
             const errorMessage = error.message;
             setErrorMsg(errorCode + "-" + errorMessage);
           });
+          navigate("/");
       }
     }  
   };
