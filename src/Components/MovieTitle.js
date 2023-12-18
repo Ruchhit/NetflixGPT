@@ -6,8 +6,8 @@ const MovieTitle = ({title,overview}) => {
         <h1 className='text-white font-bold font-sans text-3xl'>{title}</h1>
         <p className='text-white w-1/4 '>{overview}</p>
         <div>
-            <button className='text-white font-medium bg-slate-500 p-2 px-4 py-2 m-2 rounded-lg cursor-pointer'>Play</button>
-            <button className='text-white font-medium bg-slate-500 p-2 px-4 py-2 m-2 rounded-lg cursor-pointer'>More Info</button>
+            <button className='text-white font-medium bg-slate-500 p-2 px-4 py-2 m-2 rounded-lg cursor-pointer bg-opacity-30 hover:bg-opacity-80'>Play</button>
+            <button className='text-white font-medium bg-slate-500 p-2 px-4 py-2 m-2 rounded-lg cursor-pointer bg-opacity-30 hover:bg-opacity-80'>More Info</button>
         </div>
     </div>
   )
