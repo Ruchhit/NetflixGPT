@@ -3,8 +3,9 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import appStore from "../utils/appStore";
-import { logo } from "../utils/constants";
+import { logo, NETFLIX_LOGO } from "../utils/constants";
 import { auth } from "../utils/firebase";
+import { toggleGptSearchView } from "../utils/gptSlice";
 import { addUser, removeUser } from "../utils/userSlice";
 
 const Header = () => {
@@ -38,6 +39,10 @@ const Header = () => {
       });
   };
 
+  const handleGPTSearchClick = ()=>{
+    dispatch(toggleGptSearchView());
+  }
+
   return (
     <div className="">
       {/* we have two headers , one is when user is signesd in and other if it is not */}
@@ -46,15 +51,16 @@ const Header = () => {
           <div className="py-4 pl-4 z-10 ">
             <img
               className="cursor-pointer drop-shadow-lg"
-              src="https://cdn.cookielaw.org/logos/dd6b162f-1a32-456a-9cfe-897231c7763c/4345ea78-053c-46d2-b11e-09adaef973dc/Netflix_Logo_PMS.png"
+              src={NETFLIX_LOGO}
               alt="netflix logo"
               width={200}
             />
           </div>
           <div className="flex m-6 space-x-6 pr-6 pt-2">
-            <h3 className=" font-semibold font-serif text-lg py-2 ">
-              Hii..{user.displayName}{" "}
+            <h3 className=" font-semibold font-serif text-lg py-2 text-white ">
+              Hii..{user.displayName} 
             </h3>
+            <button className="bg-red-600 p-2 py-0 h-10 text-sm font-bold rounded-lg drop-shadow-lg" onClick={handleGPTSearchClick}>GPTSearch</button>
             <img
               src={logo}
               alt="logo"

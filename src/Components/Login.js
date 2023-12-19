@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import appStore from "../utils/appStore";
 import { addUser, removeUser } from "../utils/userSlice";
+import { NETFLIX_BG } from "../utils/constants";
  
 
 const Login = () => {
@@ -94,7 +95,7 @@ const Login = () => {
       <Header />
       <div className="absolute">
         <img
-          src="https://assets.nflxext.com/ffe/siteui/vlv3/ca6a7616-0acb-4bc5-be25-c4deef0419a7/c5af601a-6657-4531-8f82-22e629a3795e/IN-en-20231211-popsignuptwoweeks-perspective_alpha_website_large.jpg"
+          src= {NETFLIX_BG}
           alt="netflix logo"
         />
       </div>
