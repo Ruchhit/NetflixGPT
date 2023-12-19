@@ -1,8 +1,9 @@
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import appStore from "../utils/appStore";
+import { changeLanguage } from "../utils/configSlice";
 import { logo, NETFLIX_LOGO } from "../utils/constants";
 import { auth } from "../utils/firebase";
 import { toggleGptSearchView } from "../utils/gptSlice";
@@ -13,6 +14,7 @@ const Header = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const language = useRef();
 
   useEffect(() => {
     if (appStore) {
@@ -43,11 +45,14 @@ const Header = () => {
     dispatch(toggleGptSearchView());
   }
 
+  const handleLanguageChange = ()=>{
+    dispatch(changeLanguage(language));
+  }
   return (
     <div className="">
       {/* we have two headers , one is when user is signesd in and other if it is not */}
       {user ? (
-        <div className="flex justify-between absolute top-0 left-0 right-0 z-10 ">
+        <div className="flex justify-between absolute top-0 left-0 right-0 z-10 bg-gradient-to-b from-black p-2">
           <div className="py-4 pl-4 z-10 ">
             <img
               className="cursor-pointer drop-shadow-lg"
@@ -57,6 +62,11 @@ const Header = () => {
             />
           </div>
           <div className="flex m-6 space-x-6 pr-6 pt-2">
+          <select className="bg-red-600 p-2 py-0 h-10 text-sm font-bold rounded-lg drop-shadow-lg cursor-pointer" onClick={handleLanguageChange} ref={language}>
+            <option value='en' className='p-4 m-2 bg-opacity-50'>English</option>
+            <option value='hi' className='p-4 m-2 bg-opacity-50'>Hindi</option>
+          </select>
+
             <h3 className=" font-semibold font-serif text-lg py-2 text-white ">
               Hii..{user.displayName} 
             </h3>
@@ -78,7 +88,7 @@ const Header = () => {
         <div className="py-4 pl-4 z-10 absolute">
           <img
             className="cursor-pointer drop-shadow-lg"
-            src="https://cdn.cookielaw.org/logos/dd6b162f-1a32-456a-9cfe-897231c7763c/4345ea78-053c-46d2-b11e-09adaef973dc/Netflix_Logo_PMS.png"
+            src={NETFLIX_LOGO}
             alt="netflix logo"
             width={200}
           />
