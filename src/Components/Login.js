@@ -23,7 +23,7 @@ const Login = () => {
   const handleButtonClick = () => {
     console.log(email.current.value);
     console.log(password.current.value);
-    console.log(name.current.value)
+    //console.log(name.current.value)
 
     const msg = ValidateData(email.current.value, password.current.value);
     console.log(msg);
@@ -111,6 +111,7 @@ const Login = () => {
            ref={name}
             type="text"
             placeholder="enter your full name"
+            defaultValue=''
             className=" m-4 p-2 bg-slate-700 rounded-sm text-white w-80"
           />
         )}
@@ -118,12 +119,14 @@ const Login = () => {
           ref={email}
           type="email"
           placeholder="Enter your email"
+          defaultValue=''
           className=" m-4 p-2  bg-slate-700 rounded-sm text-white w-80"
         />
         <input
           ref={password}
           type="password"
           placeholder="enter your password"
+          defaultValue=''
           className=" m-4 p-2 bg-slate-700 rounded-sm text-white w-80"
         />
         <p className="font-medium py-2 text-red-500 pl-4  ">{errorMsg}</p>
