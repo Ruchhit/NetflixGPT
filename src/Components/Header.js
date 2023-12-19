@@ -11,7 +11,7 @@ import { addUser, removeUser } from "../utils/userSlice";
 
 const Header = () => {
   const user = useSelector((store) => store.user);
-
+  const showGptSearch = useSelector((store)=> store.gpt.showGptSearch)
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const language = useRef();
@@ -46,7 +46,7 @@ const Header = () => {
   }
 
   const handleLanguageChange = ()=>{
-    dispatch(changeLanguage(language));
+    dispatch(changeLanguage(language.current.value));
   }
   return (
     <div className="">
@@ -62,15 +62,19 @@ const Header = () => {
             />
           </div>
           <div className="flex m-6 space-x-6 pr-6 pt-2">
-          <select className="bg-red-600 p-2 py-0 h-10 text-sm font-bold rounded-lg drop-shadow-lg cursor-pointer" onClick={handleLanguageChange} ref={language}>
+           {
+            showGptSearch && (<select className="bg-red-600 p-2 py-0 h-10 text-sm font-bold rounded-lg drop-shadow-lg cursor-pointer" onClick={handleLanguageChange} ref={language}>
             <option value='en' className='p-4 m-2 bg-opacity-50'>English</option>
             <option value='hi' className='p-4 m-2 bg-opacity-50'>Hindi</option>
-          </select>
+          </select>)
+           }
 
             <h3 className=" font-semibold font-serif text-lg py-2 text-white ">
               Hii..{user.displayName} 
             </h3>
-            <button className="bg-red-600 p-2 py-0 h-10 text-sm font-bold rounded-lg drop-shadow-lg" onClick={handleGPTSearchClick}>GPTSearch</button>
+            <button className="bg-red-600 p-2 py-0 h-10 text-sm font-bold rounded-lg drop-shadow-lg" onClick={handleGPTSearchClick}>
+              {showGptSearch ? "Home Page" : "GPT Search"}
+            </button>
             <img
               src={logo}
               alt="logo"

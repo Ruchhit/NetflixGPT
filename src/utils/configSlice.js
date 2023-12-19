@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const configSlice = createSlice({
     name : 'config',
-    insitialState : {
+    initialState : {
         lang : 'en',
     },
     reducers: {

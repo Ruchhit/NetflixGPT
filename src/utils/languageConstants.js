@@ -5,7 +5,7 @@ const lang = {
     },
     hi : {
         search : "खोज",
-        placehlder : "आज आप क्या देखना चाहते हैं?"
+        placeholder : "आज आप क्या देखना चाहते हैं?"
     }
 }
 export default lang;
